@@ -10,22 +10,32 @@ import java.awt.event.ActionListener;
 public class CobraMenuPanel extends JPanel implements ActionListener{
 
     CobraFrame frame;
-    JButton startButton, optionsButton, exitButton, connectionButton;
+    JButton startButton, optionsButton, exitButton, connectionButton, instructionsButton;
     JLabel connectionLabel, playerLabel;
     ConnectionPanel connectionPanel;
     JTextField playerField;
+    JScrollPane scrollPane; // Panel de desplazamiento
 
+    JPanel contentPanel; // Panel to hold all the components
 
     CobraMenuPanel(CobraFrame frame){
         this.frame = frame;
         setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(0, 30, 0));
-        //setFocusable(false);
-        setLayout(null);
+        setLayout(new BorderLayout()); // Use BorderLayout
 
+        contentPanel = new JPanel(); // Create the content panel
+        contentPanel.setLayout(null); // Use null layout for the content panel
+        contentPanel.setPreferredSize(new Dimension(800, 800)); // Set the preferred size
+        contentPanel.setBackground(new Color(0, 30, 0)); // Set the background color
         createLabelsAndButtons();
 
         refreshConnection();
+
+        // Create the JScrollPane with the content panel and add it to this panel
+        scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); // Add this line
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -63,7 +73,11 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
             frame.SkaneJDBC.setCon(SkaneConnection.getConnection(url, user, pass));
             refreshConnection();
         }
-
+        if(e.getSource() == instructionsButton) { // Asegúrate de que esta línea esté presente
+            setVisible(false);
+            frame.instructionsPanel.setVisible(true);
+            frame.add(frame.instructionsPanel);
+        }
     }
 
     public void createLabelsAndButtons() {
@@ -74,7 +88,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         playerLabel.setBounds(290, 10, 80, 50);
         playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
         playerLabel.setForeground(Color.white);
-        add(playerLabel);
+        contentPanel.add(playerLabel); // Add to contentPanel
 
         playerField = new JTextField("player1");
         playerField.setBounds(370, 10, 130, 50);
@@ -82,7 +96,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         playerField.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
         playerField.setForeground(Color.white);
         playerField.setFont(new Font("Arial", Font.BOLD, 20));
-        add(playerField);
+        contentPanel.add(playerField);
 
         startButton = new JButton("Start");
         Font font = new Font(startButton.getFont().getName(), Font.BOLD, 32);
@@ -124,12 +138,32 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         connectionButton.addActionListener(this);
         add(connectionButton);
 
+        instructionsButton = new JButton("Instructions"); // Asegúrate de que esta línea esté presente
+        instructionsButton.setFont(font);
+        instructionsButton.setForeground(Color.white);
+        instructionsButton.setBackground(new Color(0, 51, 0, 255));
+        instructionsButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        instructionsButton.setBounds(150,550, 500, 100);
+        instructionsButton.setFocusable(false);
+        instructionsButton.addActionListener(this);
+        add(instructionsButton);
+
         connectionLabel = new JLabel();
         connectionLabel.setText(null);
         connectionLabel.setBounds(120, 10, 20, 20);
         connectionLabel.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
         connectionLabel.setOpaque(true);
         add(connectionLabel);
+
+        // Add the components to the content panel instead of this panel
+        contentPanel.add(startButton);
+        contentPanel.add(optionsButton);
+        contentPanel.add(exitButton);
+        contentPanel.add(playerLabel);
+        contentPanel.add(playerField);
+        contentPanel.add(connectionButton);
+        contentPanel.add(instructionsButton);
+        contentPanel.add(connectionLabel);
 
     }
 

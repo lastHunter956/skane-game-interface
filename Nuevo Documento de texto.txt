@@ -1,0 +1,2 @@
+Para poder ejecutar el codigo se debe de colocar el "postgresql-42.7.3.jar" (esta en la carpeta lib) File>proyect structure>modules>dependencies y se le añade el archivo.
+depues se modifica el archivo de ejecución ingresando en el "archivo LaCobrita.java" seleccionando con clik derecho el icono de run que esta al lado de la funcion principal, se selecciona la opcion de Modificación de la confuguración de arranque y en la casilla de "Environment variables" se coloca la ruta del .env "este archivo esta en el directorio Raiz"

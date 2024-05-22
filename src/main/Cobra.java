@@ -45,15 +45,14 @@ public class Cobra {
     }
 
     public void update() {
-        if(gamePanel.paused) {
-
-        } else {
+        if(!gamePanel.paused) {
             switch(direction) {
                 case "up":
                     y--;
                     if(y < 0) {
                         if(gamePanel.gameMode.equals("wall")) {
                             gamePanel.gameOver();
+                            return;
                         } else {
                             y = 29;
                         }
@@ -64,7 +63,7 @@ public class Cobra {
                     if(y > 29) {
                         if(gamePanel.gameMode.equals("wall")) {
                             gamePanel.gameOver();
-
+                            return;
                         } else {
                             y = 0;
                         }
@@ -75,6 +74,7 @@ public class Cobra {
                     if(x < 0) {
                         if(gamePanel.gameMode.equals("wall")) {
                             gamePanel.gameOver();
+                            return;
                         } else {
                             x = 39;
                         }
@@ -85,6 +85,7 @@ public class Cobra {
                     if(x > 39) {
                         if(gamePanel.gameMode.equals("wall")) {
                             gamePanel.gameOver();
+                            return;
                         } else {
                             x = 0;
                         }

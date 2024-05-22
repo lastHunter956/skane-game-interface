@@ -68,7 +68,7 @@ public class CobraGamePanel extends JPanel implements Runnable{
             pauseP.setVisible(true);
         } else {
             pauseP.setVisible(false);
-            // Antes de llamar al método update de la cobra, verifica si la cobra existe
+            // Before calling the update method of the cobra, verify if the cobra exists
             if (cobra != null) {
                 cobra.update();
             }
@@ -183,6 +183,7 @@ public class CobraGamePanel extends JPanel implements Runnable{
         if (gameMode.equals("wall")) {
             frame.goPanel.highscoresPanel.fillPanel();
         }
+        frame.goPanel.highscoresPanel.fillPanel();
         frame.gameOver();
         score = 0;
         cobra.setDefaultValues();

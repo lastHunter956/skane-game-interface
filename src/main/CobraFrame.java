@@ -11,6 +11,7 @@ public class CobraFrame extends JFrame{
     CobraMenuPanel menuPanel;
     CobraOptionsPanel opsPanel;
     CobraGOPanel goPanel;
+    InstructionsPanel instructionsPanel; // Asegúrate de que esta línea esté presente
     SkaneJDBC SkaneJDBC;
 
     CobraFrame(){
@@ -24,6 +25,7 @@ public class CobraFrame extends JFrame{
         goPanel = new CobraGOPanel(this);
         gamePanel = new CobraGamePanel(this);
         opsPanel = new CobraOptionsPanel(this);
+        instructionsPanel = new InstructionsPanel(this);
 
         add(menuPanel);
 
