@@ -5,16 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PausePanel extends JPanel implements ActionListener{
+public class PausePanel extends JPanel implements ActionListener {
 
     CobraGamePanel gamePanel;
     JButton goOnButton, toMenuButton, exitButton;
 
-    PausePanel(CobraGamePanel gamePanel){
-        this.gamePanel = gamePanel;
+    Music sfx;
 
+    PausePanel(CobraGamePanel gamePanel, Music sfx) {
+        this.gamePanel = gamePanel;
+        this.sfx = sfx;
         setBounds(200, 100, 400, 400);
-        setBackground(new Color(0,0,0,0));
+        setBackground(new Color(0, 0, 0, 0));
         setVisible(false);
         setLayout(null);
         setOpaque(false);
@@ -25,14 +27,16 @@ public class PausePanel extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == goOnButton) {
+        if (e.getSource() == goOnButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             gamePanel.paused = false;
         }
-        if(e.getSource() == toMenuButton) {
+        if (e.getSource() == toMenuButton) {
+            sfx.playSfx("src/main/resources/back.wav");
             gamePanel.mainMenu();
             gamePanel.paused = false;
         }
-        if(e.getSource() == exitButton) {
+        if (e.getSource() == exitButton) {
             System.exit(0);
 
         }

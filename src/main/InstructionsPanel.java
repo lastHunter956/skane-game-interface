@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 
 public class InstructionsPanel extends JPanel {
 
-    private CobraFrame frame;
+    Music sfx;
+    private final CobraFrame frame;
 
-    public InstructionsPanel(CobraFrame frame) {
+    public InstructionsPanel(CobraFrame frame, Music sfx) {
         this.frame = frame;
+        this.sfx = sfx;
         setLayout(null);
         setBackground(new Color(0, 30, 0)); // Set the background color
 
@@ -33,6 +35,7 @@ public class InstructionsPanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sfx.playSfx("src/main/resources/back.wav");
                 setVisible(false);
                 frame.menuPanel.setVisible(true);
             }

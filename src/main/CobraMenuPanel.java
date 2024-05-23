@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CobraMenuPanel extends JPanel implements ActionListener{
+public class CobraMenuPanel extends JPanel implements ActionListener {
 
     CobraFrame frame;
     JButton startButton, optionsButton, exitButton, connectionButton, instructionsButton;
@@ -18,8 +18,13 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
 
     JPanel contentPanel; // Panel to hold all the components
 
-    CobraMenuPanel(CobraFrame frame){
+    Music music;
+    Music sfx;
+
+    CobraMenuPanel(CobraFrame frame, Music music, Music sfx) {
         this.frame = frame;
+        this.music = music;
+        this.sfx = sfx;
         setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(0, 30, 0));
         setLayout(new BorderLayout()); // Use BorderLayout
@@ -32,6 +37,8 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
 
         refreshConnection();
 
+        music.playMusic("src/main/resources/bazooka_badger.wav");
+
         // Create the JScrollPane with the content panel and add it to this panel
         scrollPane = new JScrollPane(contentPanel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); // Add this line
@@ -40,7 +47,8 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == startButton) {
+        if (e.getSource() == startButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             frame.gamePanel.pauseP.setVisible(false);
             setVisible(false);
             frame.add(frame.gamePanel);
@@ -48,32 +56,38 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
             frame.gamePanel.requestFocus();
             frame.gamePanel.startGameThread();
         }
-        if(e.getSource() == optionsButton) {
+        if (e.getSource() == optionsButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             setVisible(false);
             frame.remove(frame.opsPanel);
             frame.add(frame.opsPanel);
             frame.opsPanel.setVisible(true);
         }
-        if(e.getSource() == exitButton) {
+        if (e.getSource() == exitButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             System.exit(0);
         }
-        if(e.getSource() == connectionButton) {
+        if (e.getSource() == connectionButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             connectionPanel.setVisible(true);
             disableComponents();
 
         }
-        if(e.getSource() == connectionPanel.closeButton) {
+        if (e.getSource() == connectionPanel.closeButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             connectionPanel.setVisible(false);
             enableComponents();
         }
-        if(e.getSource() == connectionPanel.connectButton) {
+        if (e.getSource() == connectionPanel.connectButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             String url = connectionPanel.urlField.getText();
             String user = connectionPanel.userField.getText();
             String pass = connectionPanel.passField.getText();
             frame.SkaneJDBC.setCon(SkaneConnection.getConnection(url, user, pass));
             refreshConnection();
         }
-        if(e.getSource() == instructionsButton) { // Asegúrate de que esta línea esté presente
+        if (e.getSource() == instructionsButton) { // Asegúrate de que esta línea esté presente
+            sfx.playSfx("src/main/resources/select.wav");
             setVisible(false);
             frame.instructionsPanel.setVisible(true);
             frame.add(frame.instructionsPanel);
@@ -104,7 +118,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         startButton.setForeground(Color.white);
         startButton.setBackground(new Color(0, 51, 0, 255));
         startButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        startButton.setBounds(150,100, 500, 100);
+        startButton.setBounds(150, 100, 500, 100);
         startButton.setFocusable(false);
         startButton.addActionListener(this);
         add(startButton);
@@ -114,7 +128,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         optionsButton.setForeground(Color.white);
         optionsButton.setBackground(new Color(0, 51, 0, 255));
         optionsButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        optionsButton.setBounds(150,250, 500, 100);
+        optionsButton.setBounds(150, 250, 500, 100);
         optionsButton.setFocusable(false);
         optionsButton.addActionListener(this);
         add(optionsButton);
@@ -124,7 +138,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         exitButton.setForeground(Color.white);
         exitButton.setBackground(new Color(0, 51, 0, 255));
         exitButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        exitButton.setBounds(150,400, 500, 100);
+        exitButton.setBounds(150, 400, 500, 100);
         exitButton.setFocusable(false);
         exitButton.addActionListener(this);
         add(exitButton);
@@ -143,7 +157,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
         instructionsButton.setForeground(Color.white);
         instructionsButton.setBackground(new Color(0, 51, 0, 255));
         instructionsButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        instructionsButton.setBounds(150,550, 500, 100);
+        instructionsButton.setBounds(150, 550, 500, 100);
         instructionsButton.setFocusable(false);
         instructionsButton.addActionListener(this);
         add(instructionsButton);
@@ -168,18 +182,18 @@ public class CobraMenuPanel extends JPanel implements ActionListener{
     }
 
     public void refreshConnection() {
-        if(frame.SkaneJDBC.getCon() == null) connectionLabel.setBackground(Color.red);
+        if (frame.SkaneJDBC.getCon() == null) connectionLabel.setBackground(Color.red);
         else connectionLabel.setBackground(Color.green);
     }
 
     public void disableComponents() {
-        for(Component c : getComponents()) {
+        for (Component c : getComponents()) {
             c.setEnabled(false);
         }
     }
 
     public void enableComponents() {
-        for(Component c : getComponents()) {
+        for (Component c : getComponents()) {
             c.setEnabled(true);
         }
     }
