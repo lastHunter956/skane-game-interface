@@ -6,46 +6,41 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 
-public class CobraGamePanel extends JPanel implements Runnable{
+public class CobraGamePanel extends JPanel implements Runnable {
 
-    int FPS = 60;
-    int speed = 5;
     final int WIDTH = 800;
     final int HEIGHT = 600;
     final int tileSize = 20;
-    final int rows = WIDTH/tileSize;
-    final int cols = HEIGHT/tileSize;
-    final int tiles = rows*cols;
-    private boolean running = false;
-    int coordsX[] = new int[rows];
-    int coordsY[] = new int[cols];
-
+    final int rows = WIDTH / tileSize;
+    int[] coordsX = new int[rows];
+    final int cols = HEIGHT / tileSize;
+    final int tiles = rows * cols;
+    int[] coordsY = new int[cols];
     public boolean paused = false;
-
+    int FPS = 60;
+    int speed = 5;
     int score = 0;
-
     String gameMode = "free";
-
     //frame
     CobraFrame frame;
-
     //cobra
     Cobra cobra;
-
     //apple
     Apple apple;
-
     //pause screen
     PausePanel pauseP;
-
     CobraKeyListener CKL;
-
     Thread gameThread;
+    Music music;
+    Music sfx;
+    private boolean running = false;
 
 
-    CobraGamePanel(CobraFrame frame){
+    CobraGamePanel(CobraFrame frame, Music music, Music sfx) {
         this.frame = frame;
-        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        this.music = music;
+        this.sfx = sfx;
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(new Color(0, 30, 0));
         this.setFocusable(true);
         setLayout(null);
@@ -54,20 +49,22 @@ public class CobraGamePanel extends JPanel implements Runnable{
         fillCoordArray();
         cobra = new Cobra(this, coordsX, coordsY);
         apple = new Apple(this, coordsX, coordsY);
-        pauseP = new PausePanel(this);
+        pauseP = new PausePanel(this, sfx);
         this.add(pauseP);
 
 
-        CKL  = new CobraKeyListener(cobra);
+        CKL = new CobraKeyListener(cobra);
         this.addKeyListener(CKL);
 
     }
 
     public void update() {
-        if(paused) {
+        if (paused) {
             pauseP.setVisible(true);
+            music.pauseMusic();
         } else {
             pauseP.setVisible(false);
+            music.resumeMusic();
             // Before calling the update method of the cobra, verify if the cobra exists
             if (cobra != null) {
                 cobra.update();
@@ -78,37 +75,36 @@ public class CobraGamePanel extends JPanel implements Runnable{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(gameMode == "wall") {
+        if (gameMode == "wall") {
             drawWalls(g, new Color(102, 51, 0));
         }
-        if(paused) {
+        if (paused) {
             apple.draw(g, new Color(80, 0, 0));
             cobra.draw(g, new Color(0, 80, 0));
-            drawGrid(g, new Color(15,15,15));
+            drawGrid(g, new Color(15, 15, 15));
             drawScore(g, new Color(60, 60, 60));
 
-        }else {
+        } else {
             apple.draw(g, new Color(190, 0, 0));
             cobra.draw(g, new Color(0, 130, 0));
-            drawGrid(g, new Color(30,30,30));
+            drawGrid(g, new Color(30, 30, 30));
             drawScore(g, Color.white);
 
         }
 
 
-
     }
 
     public void drawGrid(Graphics g, Color color) {
-        int rows = WIDTH/tileSize;
-        int cols = HEIGHT/tileSize;
+        int rows = WIDTH / tileSize;
+        int cols = HEIGHT / tileSize;
 
         g.setColor(color);
-        for(int i = 0;i<=rows;i++) {
-            g.drawLine(i*tileSize, 0, i*tileSize, HEIGHT);
+        for (int i = 0; i <= rows; i++) {
+            g.drawLine(i * tileSize, 0, i * tileSize, HEIGHT);
         }
-        for(int i = 0;i<=cols;i++) {
-            g.drawLine(0, i*tileSize, WIDTH, i*tileSize);
+        for (int i = 0; i <= cols; i++) {
+            g.drawLine(0, i * tileSize, WIDTH, i * tileSize);
         }
     }
 
@@ -116,28 +112,29 @@ public class CobraGamePanel extends JPanel implements Runnable{
         g.setColor(color);
         g.fillRect(0, 0, WIDTH, tileSize);
         g.fillRect(0, 0, tileSize, HEIGHT);
-        g.fillRect(WIDTH-tileSize, 0, tileSize, HEIGHT);
-        g.fillRect(0, HEIGHT-tileSize, WIDTH, 20);
+        g.fillRect(WIDTH - tileSize, 0, tileSize, HEIGHT);
+        g.fillRect(0, HEIGHT - tileSize, WIDTH, 20);
     }
 
     @Override
     public void run() {
 
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+        music.playMusic("src/main/resources/dance_fever.wav");
 
-        while(running) {
+        while (running) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
-            if (delta >= 10-speed) {
+            if (delta >= 10 - speed) {
                 update();
                 repaint();
 
-                delta-=10-speed;
+                delta -= 10 - speed;
                 cobra.timeSinceTurn++;
             }
 
@@ -153,18 +150,19 @@ public class CobraGamePanel extends JPanel implements Runnable{
 
     public void fillCoordArray() {
 
-        for(int i = 0; i<rows; i++) {
-            coordsX[i] = i*tileSize;
+        for (int i = 0; i < rows; i++) {
+            coordsX[i] = i * tileSize;
         }
 
-        for(int i = 0; i<cols; i++) {
-            coordsY[i] = i*tileSize;
+        for (int i = 0; i < cols; i++) {
+            coordsY[i] = i * tileSize;
         }
 
     }
 
     public void score() {
-        score += speed+1;
+        score += speed + 1;
+        sfx.playSfx("src/main/resources/point.wav");
         apple = new Apple(this, coordsX, coordsY);
     }
 

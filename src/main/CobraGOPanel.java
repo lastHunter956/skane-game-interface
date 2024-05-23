@@ -5,17 +5,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CobraGOPanel extends JPanel implements ActionListener{
+public class CobraGOPanel extends JPanel implements ActionListener {
 
     CobraFrame frame;
     JLabel gameOverLabel, scoreLabel;
     JButton restartButton, mainMenuButton, exitButton;
     HighscoresPanel highscoresPanel;
 
-    CobraGOPanel(CobraFrame frame){
+    Music music;
+    Music sfx;
+
+    CobraGOPanel(CobraFrame frame, Music music, Music sfx) {
         this.frame = frame;
+        this.music = music;
+        this.sfx = sfx;
         setPreferredSize(new Dimension(800, 600));
-        setBounds(0,0,800,600);
+        setBounds(0, 0, 800, 600);
         setBackground(new Color(0, 30, 0));
         setLayout(null);
 
@@ -25,7 +30,8 @@ public class CobraGOPanel extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == restartButton) {
+        if (e.getSource() == restartButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             setVisible(false);
             frame.remove(frame.gamePanel);
             frame.add(frame.gamePanel);
@@ -33,10 +39,12 @@ public class CobraGOPanel extends JPanel implements ActionListener{
             frame.gamePanel.requestFocus();
             frame.gamePanel.startGameThread();
         }
-        if(e.getSource() == mainMenuButton) {
+        if (e.getSource() == mainMenuButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             frame.mainMenu();
         }
-        if(e.getSource() == exitButton) {
+        if (e.getSource() == exitButton) {
+            sfx.playSfx("src/main/resources/select.wav");
             System.exit(0);
         }
     }
@@ -66,7 +74,7 @@ public class CobraGOPanel extends JPanel implements ActionListener{
         restartButton.setForeground(Color.white);
         restartButton.setBackground(new Color(0, 51, 0, 255));
         restartButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        restartButton.setBounds(80,420,200,150);
+        restartButton.setBounds(80, 420, 200, 150);
         restartButton.setFocusable(false);
         restartButton.addActionListener(this);
         add(restartButton);
@@ -76,7 +84,7 @@ public class CobraGOPanel extends JPanel implements ActionListener{
         mainMenuButton.setForeground(Color.white);
         mainMenuButton.setBackground(new Color(0, 51, 0, 255));
         mainMenuButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        mainMenuButton.setBounds(300,420,200,150);
+        mainMenuButton.setBounds(300, 420, 200, 150);
         mainMenuButton.setFocusable(false);
         mainMenuButton.addActionListener(this);
         add(mainMenuButton);
@@ -86,7 +94,7 @@ public class CobraGOPanel extends JPanel implements ActionListener{
         exitButton.setForeground(Color.white);
         exitButton.setBackground(new Color(0, 51, 0, 255));
         exitButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        exitButton.setBounds(520,420,200,150);
+        exitButton.setBounds(520, 420, 200, 150);
         exitButton.setFocusable(false);
         exitButton.addActionListener(this);
         add(exitButton);
