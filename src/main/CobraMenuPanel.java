@@ -1,11 +1,11 @@
 package main;
 
 import jdbc.SkaneConnection;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.Border; // Importa la clase Border
 
 public class CobraMenuPanel extends JPanel implements ActionListener {
 
@@ -26,23 +26,53 @@ public class CobraMenuPanel extends JPanel implements ActionListener {
         this.music = music;
         this.sfx = sfx;
         setPreferredSize(new Dimension(800, 600));
-        setBackground(new Color(0, 30, 0));
+        setBackground(new Color(0, 0, 0));
         setLayout(new BorderLayout()); // Use BorderLayout
 
         contentPanel = new JPanel(); // Create the content panel
         contentPanel.setLayout(null); // Use null layout for the content panel
         contentPanel.setPreferredSize(new Dimension(800, 800)); // Set the preferred size
-        contentPanel.setBackground(new Color(0, 30, 0)); // Set the background color
+        contentPanel.setBackground(new Color(154, 197, 3)); // Set the background color
+
         createLabelsAndButtons();
 
         refreshConnection();
 
         music.playMusic("src/main/resources/bazooka_badger.wav");
 
+        // Add the components to the content panel first
+
+        // Create an instance of GridBackground and add it to contentPanel
+        GridBackground gridBackground = new GridBackground();
+        gridBackground.setBounds(0, 0, contentPanel.getPreferredSize().width, contentPanel.getPreferredSize().height);
+        contentPanel.add(gridBackground); // Agregamos el fondo de cuadrícula después
+
         // Create the JScrollPane with the content panel and add it to this panel
         scrollPane = new JScrollPane(contentPanel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); // Add this line
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    // Clase interna para dibujar el fondo con cuadrículas
+    class GridBackground extends JComponent {
+        private static final int GRID_SIZE = 20;
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g); // Llama a super.paintComponent primero
+            Dimension size = getSize();
+            g.setColor(new Color(0, 0, 0, 100));
+
+            // Draw vertical lines
+            for (int x = 0; x < size.width; x += GRID_SIZE) {
+                g.fillRect(x, 0, 1, size.height);
+            }
+
+            // Draw horizontal lines
+            for (int y = 0; y < size.height; y += GRID_SIZE) {
+                g.fillRect(0, y, size.width, 1);
+            }
+        }
     }
 
     @Override
@@ -71,7 +101,6 @@ public class CobraMenuPanel extends JPanel implements ActionListener {
             sfx.playSfx("src/main/resources/select.wav");
             connectionPanel.setVisible(true);
             disableComponents();
-
         }
         if (e.getSource() == connectionPanel.closeButton) {
             sfx.playSfx("src/main/resources/select.wav");
@@ -86,7 +115,7 @@ public class CobraMenuPanel extends JPanel implements ActionListener {
             frame.SkaneJDBC.setCon(SkaneConnection.getConnection(url, user, pass));
             refreshConnection();
         }
-        if (e.getSource() == instructionsButton) { // Asegúrate de que esta línea esté presente
+        if (e.getSource() == instructionsButton) {
             sfx.playSfx("src/main/resources/select.wav");
             setVisible(false);
             frame.instructionsPanel.setVisible(true);
@@ -98,76 +127,137 @@ public class CobraMenuPanel extends JPanel implements ActionListener {
 
         connectionPanel = new ConnectionPanel(this);
 
+        // Define the new font to be used
+        Font buttonFont = new Font("Press Start 2P", Font.BOLD, 25);
+
+        // Define the thick border
+        Border thickBorder = BorderFactory.createLineBorder(new Color(0, 0, 0), 3); // 3-pixel thick border
+
+        // Calculate the horizontal center position for buttons
+        int buttonWidth = 400;
+        int panelWidth = 800;
+        int centerX = (panelWidth - buttonWidth) / 2;
+
+        // Calculate the horizontal center position for player label and field
+        int labelWidth = 130;
+        int centerXLabel = (panelWidth - labelWidth) / 2;
+
         playerLabel = new JLabel("Player:");
-        playerLabel.setBounds(290, 10, 80, 50);
-        playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        playerLabel.setForeground(Color.white);
-        contentPanel.add(playerLabel); // Add to contentPanel
+        playerLabel.setBounds(centerXLabel, 10, labelWidth, 50);
+        playerLabel.setFont(new Font("Press Start 2P", Font.BOLD, 15));
+        playerLabel.setForeground(Color.black);
+        contentPanel.add(playerLabel);
 
         playerField = new JTextField("player1");
-        playerField.setBounds(370, 10, 130, 50);
-        playerField.setBackground(new Color(0, 51, 0, 255));
-        playerField.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        playerField.setBounds(centerXLabel, 70, labelWidth, 50);
+        playerField.setBackground(new Color(61, 79, 1, 255));
+        playerField.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         playerField.setForeground(Color.white);
         playerField.setFont(new Font("Arial", Font.BOLD, 20));
         contentPanel.add(playerField);
 
-        startButton = new JButton("Start");
-        Font font = new Font(startButton.getFont().getName(), Font.BOLD, 32);
-        startButton.setFont(font);
-        startButton.setForeground(Color.white);
-        startButton.setBackground(new Color(0, 51, 0, 255));
-        startButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        startButton.setBounds(150, 100, 500, 100);
+
+        ImageIcon imageIcon = new ImageIcon("imagenes/skane.png");
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newimg);
+
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setBounds(260, 70, 300, 200); // Adjust the position and size as needed
+        contentPanel.add(imageLabel);
+
+        Font font = new Font("Press Start 2P", Font.BOLD, 24); // Reduce the font size
+        Dimension buttonSize = new Dimension(500, 70); // Reduce the button size
+
+
+        int margin = 20;
+
+        int buttonY = 250;
+
+        // Botón Start
+        ImageIcon iconoOriginal = new ImageIcon("imagenes/tocar.png");
+        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
+        startButton = new JButton("Start", iconoEscalado); // Crea el botón con el texto y el icono
+        startButton.setFont(buttonFont);
+        startButton.setForeground(Color.black);
+        startButton.setBackground(new Color(154, 197, 3, 255));
+        startButton.setBorder(thickBorder);
+        startButton.setBounds(centerX, buttonY, buttonWidth, 80);
         startButton.setFocusable(false);
         startButton.addActionListener(this);
-        add(startButton);
+        contentPanel.add(startButton);
 
-        optionsButton = new JButton("Options");
-        optionsButton.setFont(font);
-        optionsButton.setForeground(Color.white);
-        optionsButton.setBackground(new Color(0, 51, 0, 255));
-        optionsButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        optionsButton.setBounds(150, 250, 500, 100);
+        // Ajustar la posición y para el próximo botón
+        buttonY += 80 + margin;
+
+        // Botón Options
+        ImageIcon iconoOriginalOptions = new ImageIcon("imagenes/opciones.png");
+        Image imagenEscaladaOptions = iconoOriginalOptions.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon iconoEscaladoOptions = new ImageIcon(imagenEscaladaOptions);
+        optionsButton = new JButton("Options", iconoEscaladoOptions); // Crea el botón con el texto y el icono
+        optionsButton.setFont(buttonFont);
+        optionsButton.setForeground(Color.black);
+        optionsButton.setBackground(new Color(154, 197, 3, 255));
+        optionsButton.setBorder(thickBorder);
+        optionsButton.setBounds(centerX, buttonY, buttonWidth, 80);
         optionsButton.setFocusable(false);
         optionsButton.addActionListener(this);
-        add(optionsButton);
+        contentPanel.add(optionsButton);
 
-        exitButton = new JButton("Exit");
-        exitButton.setFont(font);
-        exitButton.setForeground(Color.white);
-        exitButton.setBackground(new Color(0, 51, 0, 255));
-        exitButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        exitButton.setBounds(150, 400, 500, 100);
+        // Ajustar la posición y para el próximo botón
+        buttonY += 80 + margin;
+
+        // Botón Exit
+        ImageIcon iconoOriginalExit = new ImageIcon("imagenes/exit.png");
+        Image imagenEscaladaExit = iconoOriginalExit.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon iconoEscaladoExit = new ImageIcon(imagenEscaladaExit);
+        exitButton = new JButton("Exit", iconoEscaladoExit); // Crea el botón con el texto y el icono
+        exitButton.setFont(buttonFont);
+        exitButton.setForeground(Color.black);
+        exitButton.setBackground(new Color(154, 197, 3, 255));
+        exitButton.setBorder(thickBorder);
+        exitButton.setBounds(centerX, buttonY, buttonWidth, 80);
         exitButton.setFocusable(false);
         exitButton.addActionListener(this);
-        add(exitButton);
+        contentPanel.add(exitButton);
 
-        connectionButton = new JButton("Connection");
-        connectionButton.setForeground(Color.white);
-        connectionButton.setBackground(new Color(0, 51, 0, 255));
-        connectionButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        connectionButton.setBounds(10, 10, 100, 20);
-        connectionButton.setFocusable(false);
-        connectionButton.addActionListener(this);
-        add(connectionButton);
+        // Ajustar la posición y para el próximo botón
+        buttonY += 80 + margin;
 
-        instructionsButton = new JButton("Instructions"); // Asegúrate de que esta línea esté presente
-        instructionsButton.setFont(font);
-        instructionsButton.setForeground(Color.white);
-        instructionsButton.setBackground(new Color(0, 51, 0, 255));
-        instructionsButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
-        instructionsButton.setBounds(150, 550, 500, 100);
+        // Botón Instructions
+        ImageIcon iconoOriginalInstructions = new ImageIcon("imagenes/intrucciones.png");
+        Image imagenEscaladaInstructions = iconoOriginalInstructions.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon iconoEscaladoInstructions = new ImageIcon(imagenEscaladaInstructions);
+        instructionsButton = new JButton("Instructions", iconoEscaladoInstructions); // Crea el botón con el texto y el icono
+        instructionsButton.setFont(buttonFont);
+        instructionsButton.setForeground(Color.black);
+        instructionsButton.setBackground(new Color(154, 197, 3, 255));
+        instructionsButton.setBorder(thickBorder);
+        instructionsButton.setBounds(centerX, buttonY, buttonWidth, 80);
         instructionsButton.setFocusable(false);
         instructionsButton.addActionListener(this);
-        add(instructionsButton);
+        contentPanel.add(instructionsButton);
+
+        // Botón Connection
+        connectionButton = new JButton("Connection");
+        connectionButton.setFont(new Font("Arial", Font.BOLD, 16)); // Smaller font for this button
+        connectionButton.setForeground(Color.white);
+        connectionButton.setBackground(new Color(61, 79, 1, 255));
+        connectionButton.setBorder(thickBorder);
+        connectionButton.setBounds(10, 10, 130, 30); // Reduced size
+        connectionButton.setFocusable(false);
+        connectionButton.addActionListener(this);
+        contentPanel.add(connectionButton);
+
+
+
 
         connectionLabel = new JLabel();
         connectionLabel.setText(null);
         connectionLabel.setBounds(120, 10, 20, 20);
-        connectionLabel.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        connectionLabel.setBorder(thickBorder);
         connectionLabel.setOpaque(true);
-        add(connectionLabel);
 
         // Add the components to the content panel instead of this panel
         contentPanel.add(startButton);

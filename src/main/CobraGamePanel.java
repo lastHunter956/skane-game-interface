@@ -41,7 +41,7 @@ public class CobraGamePanel extends JPanel implements Runnable {
         this.music = music;
         this.sfx = sfx;
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setBackground(new Color(0, 30, 0));
+        this.setBackground(new Color(56, 72, 1, 255));
         this.setFocusable(true);
         setLayout(null);
 

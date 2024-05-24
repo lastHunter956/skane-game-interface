@@ -17,7 +17,7 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
         this.frame = frame;
         this.sfx = sfx;
         setPreferredSize(new Dimension(800, 600));
-        setBackground(new Color(0, 30, 0));
+        setBackground(new Color(92, 117, 1, 255));
         setLayout(null);
 
         createLabelsAndButtons();
@@ -76,10 +76,10 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
         changeSpeedLabel = new JLabel("Speed");
         Font font = new Font(changeSpeedLabel.getFont().getName(), Font.BOLD, 32);
         changeSpeedLabel.setFont(font);
-        changeSpeedLabel.setForeground(Color.white);
-        changeSpeedLabel.setBackground(new Color(0, 51, 0, 255));
+        changeSpeedLabel.setForeground(Color.black);
+        changeSpeedLabel.setBackground(new Color(154, 197, 3, 255));
         changeSpeedLabel.setOpaque(true);
-        changeSpeedLabel.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        changeSpeedLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         changeSpeedLabel.setHorizontalAlignment(JLabel.CENTER);
         changeSpeedLabel.setBounds(50, 100, 300, 100);
         add(changeSpeedLabel);
@@ -87,7 +87,7 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
         decreaseSpeedButton = new JButton("<");
         decreaseSpeedButton.setFont(font);
         decreaseSpeedButton.setBackground(new Color(0, 0, 0, 0));
-        decreaseSpeedButton.setForeground(new Color(102, 51, 0));
+        decreaseSpeedButton.setForeground(new Color(0, 0, 0));
         decreaseSpeedButton.setBorder(null);
         decreaseSpeedButton.setBounds(450, 100, 100, 100);
         decreaseSpeedButton.setFocusable(false);
@@ -97,18 +97,18 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
 
         speedLabel = new JLabel(String.valueOf(frame.gamePanel.speed + 1));
         speedLabel.setFont(font);
-        speedLabel.setForeground(Color.white);
-        speedLabel.setBackground(new Color(0, 51, 0, 255));
+        speedLabel.setForeground(Color.black);
+        speedLabel.setBackground(new Color(154, 197, 3, 255));
         speedLabel.setOpaque(true);
         speedLabel.setHorizontalAlignment(JLabel.CENTER);
-        speedLabel.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        speedLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         speedLabel.setBounds(550, 100, 100, 100);
         add(speedLabel);
 
         increaseSpeedButton = new JButton(">");
         increaseSpeedButton.setFont(font);
         increaseSpeedButton.setBackground(new Color(0, 0, 0, 0));
-        increaseSpeedButton.setForeground(new Color(102, 51, 0));
+        increaseSpeedButton.setForeground(new Color(0, 0, 0));
         increaseSpeedButton.setBorder(null);
         increaseSpeedButton.setBounds(650, 100, 100, 100);
         increaseSpeedButton.setFocusable(false);
@@ -118,18 +118,18 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
 
         changeModeLabel = new JLabel("Game Mode");
         changeModeLabel.setFont(font);
-        changeModeLabel.setForeground(Color.white);
-        changeModeLabel.setBackground(new Color(0, 51, 0, 255));
+        changeModeLabel.setForeground(Color.black);
+        changeModeLabel.setBackground(new Color(154, 197, 3, 255));
         changeModeLabel.setOpaque(true);
         changeModeLabel.setHorizontalAlignment(JLabel.CENTER);
-        changeModeLabel.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        changeModeLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         changeModeLabel.setBounds(50, 250, 300, 100);
         add(changeModeLabel);
 
         decreaseModeButton = new JButton("<");
         decreaseModeButton.setFont(font);
         decreaseModeButton.setBackground(new Color(0, 0, 0, 0));
-        decreaseModeButton.setForeground(new Color(102, 51, 0));
+        decreaseModeButton.setForeground(new Color(0, 0, 0));
         decreaseModeButton.setBorder(null);
         decreaseModeButton.setBounds(450, 250, 100, 100);
         decreaseModeButton.setFocusable(false);
@@ -139,18 +139,18 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
 
         modeLabel = new JLabel(frame.gamePanel.gameMode);
         modeLabel.setFont(font);
-        modeLabel.setForeground(Color.white);
-        modeLabel.setBackground(new Color(0, 51, 0, 255));
+        modeLabel.setForeground(Color.black);
+        modeLabel.setBackground(new Color(154, 197, 3, 255));
         modeLabel.setOpaque(true);
         modeLabel.setHorizontalAlignment(JLabel.CENTER);
-        modeLabel.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        modeLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         modeLabel.setBounds(550, 250, 100, 100);
         add(modeLabel);
 
         increaseModeButton = new JButton(">");
         increaseModeButton.setFont(font);
         increaseModeButton.setBackground(new Color(0, 0, 0, 0));
-        increaseModeButton.setForeground(new Color(102, 51, 0));
+        increaseModeButton.setForeground(new Color(0, 0, 0));
         increaseModeButton.setBorder(null);
         increaseModeButton.setBounds(650, 250, 100, 100);
         increaseModeButton.setFocusable(false);
@@ -160,10 +160,10 @@ public class CobraOptionsPanel extends JPanel implements ActionListener {
 
         backButton = new JButton("Back");
         backButton.setFont(font);
-        backButton.setForeground(Color.white);
-        backButton.setBackground(new Color(0, 51, 0, 255));
+        backButton.setForeground(Color.black);
+        backButton.setBackground(new Color(154, 197, 3, 255));
         backButton.setHorizontalAlignment(JLabel.CENTER);
-        backButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        backButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         backButton.setBounds(50, 400, 700, 100);
         backButton.setFocusable(false);
         backButton.addActionListener(this);
