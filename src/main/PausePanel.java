@@ -50,7 +50,7 @@ public class PausePanel extends JPanel implements ActionListener {
         goOnButton.setForeground(Color.white);
         goOnButton.setBackground(new Color(0, 51, 0, 255));
         goOnButton.setHorizontalAlignment(JLabel.CENTER);
-        goOnButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        goOnButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         goOnButton.setBounds(50, 50, 300, 100);
         goOnButton.setFocusable(false);
         goOnButton.addActionListener(this);
@@ -61,7 +61,7 @@ public class PausePanel extends JPanel implements ActionListener {
         toMenuButton.setForeground(Color.white);
         toMenuButton.setBackground(new Color(0, 51, 0, 255));
         toMenuButton.setHorizontalAlignment(JLabel.CENTER);
-        toMenuButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        toMenuButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         toMenuButton.setBounds(50, 150, 300, 100);
         toMenuButton.setFocusable(false);
         toMenuButton.addActionListener(this);
@@ -72,7 +72,7 @@ public class PausePanel extends JPanel implements ActionListener {
         exitButton.setForeground(Color.white);
         exitButton.setBackground(new Color(0, 51, 0, 255));
         exitButton.setHorizontalAlignment(JLabel.CENTER);
-        exitButton.setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        exitButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         exitButton.setBounds(50, 250, 300, 100);
         exitButton.setFocusable(false);
         exitButton.addActionListener(this);

@@ -18,7 +18,7 @@ public class ConnectionPanel extends JPanel{
 
         setBounds(30, 30, 300, 180);
         setBackground(new Color(0, 100, 0, 255));
-        setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         setLayout(null);
         setVisible(false);
 

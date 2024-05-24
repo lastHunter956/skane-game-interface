@@ -15,8 +15,8 @@ public class HighscoresPanel extends JPanel{
         this.frame = frame;
 
         setBounds(105, 120, 590, 290);
-        setBackground(new Color(0, 100, 0, 255));
-        setBorder(BorderFactory.createLineBorder(new Color(102, 51, 0)));
+        setBackground(new Color(90, 115, 0, 255));
+        setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         setLayout(null);
 
         fillPanel();
